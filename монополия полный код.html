@@ -360,6 +360,7 @@ input,select{font-family:inherit}
 <script>if(!window.THREE){document.write('<script src="https://unpkg.com/three@0.128.0/build/three.min.js"><\/script>');}</script>
 <script>if(!window.THREE){document.write('<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"><\/script>');}</script>
 <script>
+
 'use strict';
 /* ===================================================================
    БИЗНЕС-СИТИ — 3D Монополия (single-file)
@@ -3794,29 +3795,6 @@ function handleAct(d){
     case 'slot-del':delSlot(+d.slot);updateSaveUI();toast('Слот '+d.slot+' очищен');break;
   }
 }
-
-/* ============ 14. СТАРТ ============ */
-function boot(){
-  if(!window.THREE){
-    showFatal('Не удалось загрузить 3D-библиотеку Three.js с CDN.<br><br>Проверьте подключение к интернету или откройте страницу через веб-сервер (<code>python -m http.server</code>).');
-    return;
-  }
-  try{
-    initScene();
-    bindCameraControls();
-    bindUI();
-  }catch(e){
-    showFatal('Ошибка инициализации 3D (WebGL):<br><code style="color:#F2C500">'+e.message+'</code>');
-    return;
-  }
-  updateSaveUI();
-  runCoreTests();
-  $('#tests-line').textContent=(window.__TESTS_OK?'✅':'❌')+' Юнит-тесты Core: '+(window.__TESTS_N||0)+' проверок — '+(window.__TESTS_OK?'пройдены':'есть ошибки')+' (см. консоль)';
-  const l=document.getElementById('loading');if(l)l.style.display='none';
-  window.__BOOTED=true;
-  requestAnimationFrame(loop);
-}
-boot();
 </script>
 </body>
 </html>
