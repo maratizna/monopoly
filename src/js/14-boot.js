@@ -321,3 +321,12 @@ function handleAct(d){
     case 'slot-del':delSlot(+d.slot);updateSaveUI();toast('Слот '+d.slot+' очищен');break;
   }
 }
+
+(function boot(){
+  try{
+    if(!window.THREE) throw new Error('Не удалось загрузить 3D-движок Three.js…');
+    initScene(); bindUI(); updateSaveUI(); loop();
+    window.__BOOTED=true;
+    document.getElementById('loading').style.display='none';
+  }catch(e){ showFatal(e.message); }
+})();
