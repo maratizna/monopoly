@@ -1,0 +1,147 @@
+<div id="loading"><div class="spin"></div><div>Загрузка 3D-движка…</div></div>
+<div id="fatal"><div class="fcard"><h2 style="color:#E23B3B">Не удалось запустить игру</h2><div id="fatal-msg" style="color:#cfd8f2;line-height:1.6;margin:10px 0 16px"></div><button class="btn primary" onclick="location.reload()">ПЕРЕЗАПУСТИТЬ</button></div></div>
+<div id="scene-holder"></div>
+
+<div id="hud">
+  <div id="topbar"></div>
+  <button id="pause-btn" class="top-btn">⏸</button>
+  <button id="btn-log" class="top-btn">📜<span id="log-badge"></span></button>
+  <button id="market-chip">📊</button>
+  <div id="log-panel"><div class="lh">ЛОГ СОБЫТИЙ</div><div id="log-body"></div></div>
+  <div id="bottombar">
+    <div id="main-controls">
+      <div id="dice-hud"><div class="die">⚀</div><div class="die">⚀</div></div>
+      <button id="roll-btn">БРОСИТЬ</button>
+      <button id="end-btn" disabled>ЗАВЕРШИТЬ ХОД</button>
+    </div>
+    <div id="action-row">
+      <button class="act-btn" id="btn-build">🏠 Строить</button>
+      <button class="act-btn" id="btn-assets">🏦 Активы</button>
+      <button class="act-btn" id="btn-trade">🤝 Торговля</button>
+      <button class="act-btn" id="btn-stocks" style="display:none">📈 Биржа</button>
+      <button class="act-btn" id="btn-heatmap">📊 Аналитика</button>
+    </div>
+  </div>
+</div>
+<div id="toast"></div>
+<div id="tip"></div>
+<div id="hint">🖐 drag — вращение · 2 пальца / Shift+drag — панорама и зум · тап по клетке — действия · тап по игроку — профиль</div>
+
+<div class="screen show" id="screen-menu">
+  <h1 class="title-big">БИЗНЕС-СИТИ</h1>
+  <button class="menu-btn primary" id="btn-new">▶ НОВАЯ ИГРА</button>
+  <div id="menu-saves"></div>
+  <button class="menu-btn" id="btn-career">🏆 КАРЬЕРА</button>
+  <button class="menu-btn" id="btn-help">📖 ПРАВИЛА</button>
+  <button class="menu-btn" id="btn-settings">⚙ НАСТРОЙКИ</button>
+</div>
+
+<div class="screen" id="screen-lobby">
+  <div class="panel">
+    <h2>ЛОББИ — 2-4 ИГРОКА</h2>
+    <div class="row" style="margin-bottom:12px">
+      <span style="font-size:13px;color:#9fb0d8">Игроков:</span>
+      <button class="btn small cnt-btn" data-cnt="2">2</button>
+      <button class="btn small cnt-btn" data-cnt="3">3</button>
+      <button class="btn small cnt-btn" data-cnt="4">4</button>
+    </div>
+    <div class="lobby-head"><span>ИМЯ</span><span>ЦВЕТ</span><span>ФИШКА</span><span>ТИП</span></div>
+    <div id="lobby-slots"></div>
+    <div class="sw"><input type="checkbox" id="rule-parking"><label for="rule-parking">Хаусрул: «Бесплатная парковка» копит штрафы</label></div>
+    <div class="delta">Штрафы уходят в копилку Парковки и достаются тому, кто на неё встанет</div>
+    <div class="custom-hdr">РЕЖИМ «КАСТОМ» — механики включаются по отдельности (эры перекрывают простые циклы)</div>
+    <div class="sw"><input type="checkbox" id="cm-infra"><label for="cm-infra">🏗 <b>Городские инфраструктуры</b></label></div>
+    <div class="delta">$300 постройка · рента типа +25% (монополисту +50%) · контр-билет $150</div>
+    <div class="sw"><input type="checkbox" id="cm-shadow"><label for="cm-shadow">🃏 <b>Теневой рынок</b></label></div>
+    <div class="delta">Парковка → чёрная карта: перераспределение и риск, без денег из воздуха</div>
+    <div class="sw"><input type="checkbox" id="cm-cycles"><label for="cm-cycles">📊 <b>Экономические циклы</b></label></div>
+    <div class="delta">Бум: стройка +20%, монополии ×4 · Кризис: ренты −20%, выкуп без %</div>
+    <div class="sw"><input type="checkbox" id="cm-synd"><label for="cm-synd">🔗 <b>Синдикаты</b></label></div>
+    <div class="delta">+$50 к ренте соседних улиц разных цветов (и через одну клетку)</div>
+    <div class="sw"><input type="checkbox" id="cm-tax"><label for="cm-tax">🧾 <b>Амортизация недвижимости</b></label></div>
+    <div class="delta">−$10/дом · −$25/отель · −$5/пустая клетка за каждый круг (монополии ×2)</div>
+    <div class="sw"><input type="checkbox" id="cm-spec"><label for="cm-spec">🏙 <b>Специализированные застройки</b></label></div>
+    <div class="delta">🏙 рента ×2 отеля · 🏢 рента отеля + $25 поток · 🚉 $100 → вокзал ×2</div>
+    <div class="sw"><input type="checkbox" id="cm-tender"><label for="cm-tender">🤝 <b>Tender Offer</b></label></div>
+    <div class="delta">+аукцион за чужие пустые улицы · сбор $50 · старт = 50% цены · комиссия 10% банку</div>
+    <div class="sw"><input type="checkbox" id="cm-subs"><label for="cm-subs">🏭 <b>Дочерние предприятия</b></label></div>
+    <div class="delta">−$700 взнос · +$50 за каждый проход GO · −$10 обслуживание</div>
+    <div class="sw"><input type="checkbox" id="cm-eras"><label for="cm-eras">📈 <b>Цикл экономических эр</b></label></div>
+    <div class="delta">GO: $200→$100–$300 · ренты: −20%…+50% · ипотека: 0%→+20%</div>
+    <div class="sw"><input type="checkbox" id="cm-stocks"><label for="cm-stocks">📊 <b>Фондовая биржа</b></label></div>
+    <div class="delta">4 корпорации · покупка акций · дивиденды на GO · цены зависят от активности на доске</div>
+    <div class="btn-row">
+      <button class="btn ghost" id="lobby-back">← НАЗАД</button>
+      <button class="btn primary" id="lobby-start">СТАРТ ▶</button>
+    </div>
+  </div>
+</div>
+
+<div class="screen" id="screen-career">
+  <div class="panel">
+    <h2>🏆 КАРЬЕРА</h2>
+    <div style="text-align:center;margin-bottom:14px">
+      <span class="rep-badge" id="career-rep">Репутация: 0</span>
+      <div style="color:#9fb0d8;font-size:12px;margin-top:6px" id="career-wins">Побед: 0</div>
+    </div>
+    <div class="res-hdr">ПЕРКИ НА СТАРТ ПАРТИИ</div>
+    <div id="career-perks"></div>
+    <div class="res-hdr">ЦВЕТА ФИШЕК</div>
+    <div id="career-colors"></div>
+    <div class="btn-row"><button class="btn primary" data-act="career-back">ЗАКРЫТЬ</button></div>
+  </div>
+</div>
+
+<div class="screen" id="screen-help">
+  <div class="panel">
+    <h2>📖 ПРАВИЛА И СПРАВКА</h2>
+    <div class="help-body">
+      <h3>Цель</h3>Останьтесь последним непобанкротившимся игроком. Стартовый капитал — $1500.
+      <h3>Ход</h3>Бросьте два кубика и двигайте фишку. Дубль — дополнительный бросок; 3 дубля подряд — в тюрьму. Проход через СТАРТ даёт +$200 (или по эре) — монетки летят от банка к фишке.
+      <h3>Раунды</h3>Один раунд — по одному ходу каждого играющего игрока; лог размечен «РАУНД N».
+      <h3>Собственность</h3>Свободную клетку можно купить (или отказаться — аукцион). В карточке клетки видна актуальная рента со всеми модификаторами.
+      <h3>Игроки</h3>Тап по плашке игрока — профиль (деньги, капитал, активы) и «📊 Статистика»: круги, рента, тюрьма, постройки. Для ботов видна Агрессия.
+      <h3>📊 Аналитика</h3>Кнопка в игре включает тепловую карту: красным — опасные клетки соперников (отели/небоскрёбы), зелёным — ваши монополии.
+      <h3>🎬 Кино-камера</h3>В Настройках: наезд на кубики при броске, облёт по сплайну при оплате ренты, отдаление и тряска при банкротстве. Прерывается вашим драгом.
+      <h3>📈 Биржа</h3>4 корпорации; покупайте акции вместо недвижимости. Цены растут от активности: ТехТех — от небоскрёбов/БЦ, СтальПром — от домов, ЭнергоГрупп — от попаданий на коммуникации, ЛогистикЛайн — от вокзалов. Дивиденды — на GO. Можно основать свою компанию за $800.
+      <h3>🏆 Карьера</h3>За победы — Репутация. Тратится на перки старта ($2000 без ипотеки / бесплатная улица / карточка из тюрьмы) и новые цвета фишек.
+      <h3>🤖 Боты</h3>Все боты делают то же, что игрок (покупка, аукционы, тендеры, стройка, ипотека). Лёгкий покупает ~55% и мало строит; Средний держит резерв и торгуется до ~110% цены; Сложный оценивает синергию, агрессивно строит и сам предлагает сделки. Боты имеют «Агрессию» и «Память»: частые отказы в сделках делают их злее на тендерах против вас.
+      <h3>Сохранения</h3>Именные слоты 1–3; автосейв — служебный слот 0 (защита от случайного закрытия). «Выйти без сохранения» стирает слот 0.
+      <h3>Управление камерой</h3>Палец/ЛКМ — вращение; 2 пальца — панорама+зум; ПКМ/Shift+drag — панорама; колесо — зум; двойной тап — сброс. Пробел — бросок.
+      <div id="tests-line" style="margin-top:12px;color:#9fb0d8;font-size:12px"></div>
+    </div>
+    <div class="btn-row"><button class="btn primary" id="help-back">ЗАКРЫТЬ</button></div>
+  </div>
+</div>
+
+<div class="screen" id="screen-results">
+  <div class="panel" style="text-align:center">
+    <h2 id="res-title">ПОБЕДА!</h2>
+    <div id="res-body"></div>
+    <div class="btn-row">
+      <button class="btn primary" data-act="result-new">НОВАЯ ИГРА</button>
+      <button class="btn ghost" data-act="result-menu">В МЕНЮ</button>
+    </div>
+  </div>
+</div>
+
+<div id="pass-banner">
+  <div class="big-tok" id="pb-tok">🎩</div>
+  <h2 id="pb-name" style="margin:6px 0 2px">Ход игрока</h2>
+  <div style="color:#9fb0d8;margin-bottom:22px">Передайте устройство</div>
+  <button class="btn primary" id="pb-go" style="font-size:18px;padding:15px 40px">НАЧАТЬ ХОД</button>
+</div>
+
+<div id="onboard">
+  <div class="ob-card">
+    <div id="ob-body"></div>
+    <div class="ob-dots" id="ob-dots"></div>
+    <div class="btn-row">
+      <button class="btn ghost" id="ob-skip">ПРОПУСТИТЬ</button>
+      <button class="btn primary" id="ob-next">ПОНЯТНО</button>
+    </div>
+  </div>
+</div>
+
+<div id="modal-root"></div>
+<input type="file" id="import-file" accept=".json,application/json" style="display:none">
